@@ -9,13 +9,13 @@
 
     <Window.Resources>
         <DataTemplate x:Key="TextTemplate">
-            <TextBlock Text="{Binding name}" FontWeight="Bold" Margin="5"/>
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="5"/>
         </DataTemplate>
 
         <DataTemplate x:Key="ImageTemplate">
             <StackPanel Orientation="Vertical" Width="75" Margin="5">
                 <Image Source="{Binding ImageUrl}" Width="50" Height="50"/>
-                <TextBlock Text="{Binding name}" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
             </StackPanel>
         </DataTemplate>
     </Window.Resources>
@@ -41,11 +41,11 @@
             <TextBlock Text="Champion Details" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" TextAlignment="Center"/>
 
             <StackPanel DataContext="{Binding SelectedItem, ElementName=ChampionsList}">
-                <TextBlock Text="{Binding name}" FontWeight="Bold" FontSize="14"/>
+                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
                 <Image Source="{Binding ImageUrl}" Width="100" Height="100" />
-                <TextBlock Text="{Binding stats.hp, StringFormat=HP: {0}}" />
-                <TextBlock Text="{Binding stats.attackdamage, StringFormat=ATK: {0}}" />
-                <TextBlock Text="{Binding stats.movespeed, StringFormat=Move Speed: {0}}" />
+                <TextBlock Text="{Binding Stats.Hp, StringFormat=HP: {0}}" />
+                <TextBlock Text="{Binding Stats.AttackDamage, StringFormat=ATK: {0}}" />
+                <TextBlock Text="{Binding Stats.MoveSpeed, StringFormat=Move Speed: {0}}" />
                 <TextBlock Text="{Binding TagsText, StringFormat=Tags: {0}}" />
             </StackPanel>
         </StackPanel>

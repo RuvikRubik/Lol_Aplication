@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Lol_Aplication.Models;
+
 namespace Lol_Aplication
 {
     /// <summary>
@@ -20,32 +22,6 @@ namespace Lol_Aplication
     /// </summary>
     public partial class MainWindow : Window
     {
-        public class Json
-        {
-            [JsonPropertyName("data")]
-            public Dictionary<string, Champion> champions { get; set; }
-        }
-
-        public class Champion
-        {
-            public string id { get; set; }
-            public string name { get; set; }
-            public List<string> tags { get; set; }
-            public Stats stats { get; set; }
-
-            public string TagsText => string.Join(", ", tags);
-
-            public string ImageUrl { get; set; }
-        }
-
-        public class Stats
-        {
-            public float hp { get; set; }
-            public float movespeed { get; set; }
-            public float attackdamage { get; set; }
-
-        }
-
         string ChampionsJSON;
         string versionJSON;
         string selectedVersion; // aktualnie wybrana wersja gry
@@ -69,7 +45,7 @@ namespace Lol_Aplication
             ChampionsList.ItemsSource = root.champions.Values;
             foreach (var champ in root.champions.Values)
             {
-                champ.ImageUrl = $"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/img/champion/{champ.id}.png";
+                champ.ImageUrl = $"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/img/champion/{champ.ID}.png";
             }
         }
 
