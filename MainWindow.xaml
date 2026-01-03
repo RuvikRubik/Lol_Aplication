@@ -1,0 +1,54 @@
+﻿<Window x:Class="Lol_Aplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lol_Aplication"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <DataTemplate x:Key="TextTemplate">
+            <TextBlock Text="{Binding name}" FontWeight="Bold" Margin="5"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ImageTemplate">
+            <StackPanel Orientation="Vertical" Width="75" Margin="5">
+                <Image Source="{Binding ImageUrl}" Width="50" Height="50"/>
+                <TextBlock Text="{Binding name}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Name="StackPanel1" Grid.Column="0">
+            <ComboBox Name="VersionsComboBox" SelectionChanged="GenerateChapions" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
+                <Button Content="Text" Click="TextButton_Click" Margin="0,0,5,0"/>
+                <Button Content="Image" Click="ImageButton_Click"/>
+            </StackPanel>
+
+            <ListBox Name="ChampionsList" Height="400"/>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <TextBlock Text="Champion Details" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" TextAlignment="Center"/>
+
+            <StackPanel DataContext="{Binding SelectedItem, ElementName=ChampionsList}">
+                <TextBlock Text="{Binding name}" FontWeight="Bold" FontSize="14"/>
+                <Image Source="{Binding ImageUrl}" Width="100" Height="100" />
+                <TextBlock Text="{Binding stats.hp, StringFormat=HP: {0}}" />
+                <TextBlock Text="{Binding stats.attackdamage, StringFormat=ATK: {0}}" />
+                <TextBlock Text="{Binding stats.movespeed, StringFormat=Move Speed: {0}}" />
+                <TextBlock Text="{Binding TagsText, StringFormat=Tags: {0}}" />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>
