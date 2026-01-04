@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lol_Aplication"
+        xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="900" Width="1200">
 
     <Window.Resources>
         <DataTemplate x:Key="TextTemplate">
@@ -34,21 +35,63 @@
                 <Button Content="Image" Click="ImageButton_Click"/>
             </StackPanel>
 
-            <ListBox Name="ChampionsList" Height="400"/>
+            <ListBox Name="ChampionsList" Height="400"
+         SelectionChanged="ChampionsList_SelectionChanged"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1">
-            <TextBlock Text="Champion Details" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" TextAlignment="Center"/>
+        
 
-            <StackPanel DataContext="{Binding SelectedItem, ElementName=ChampionsList}">
-                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
-                <Image Source="{Binding ImageUrl}" Width="100" Height="100" />
-                <TextBlock Text="{Binding Stats.Hp, StringFormat=HP: {0}}" />
-                <TextBlock Text="{Binding Stats.AttackDamage, StringFormat=ATK: {0}}" />
-                <TextBlock Text="{Binding Stats.MoveSpeed, StringFormat=Move Speed: {0}}" />
-                <TextBlock Text="{Binding TagsText, StringFormat=Tags: {0}}" />
+        <Grid Grid.Column="1" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- szczegóły championa -->
+                <RowDefinition Height="*"/>
+                <!-- WebView2 -->
+            </Grid.RowDefinitions>
+
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center">
+                <TextBlock Text="Szczegóły champion" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+
+                <Grid DataContext="{Binding SelectedItem, ElementName=ChampionsList}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Nazwa -->
+                    <TextBlock Text="Nazwa:" Grid.Row="0" Grid.Column="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Name}" Grid.Row="0" Grid.Column="1"/>
+
+                    <!-- HP -->
+                    <TextBlock Text="HP:" Grid.Row="1" Grid.Column="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Stats.Hp}" Grid.Row="1" Grid.Column="1"/>
+
+                    <!-- Atak -->
+                    <TextBlock Text="Atak:" Grid.Row="2" Grid.Column="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Stats.AttackDamage}" Grid.Row="2" Grid.Column="1"/>
+
+                    <!-- MoveSpeed -->
+                    <TextBlock Text="Move Speed:" Grid.Row="3" Grid.Column="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding Stats.MoveSpeed}" Grid.Row="3" Grid.Column="1"/>
+
+                    <!-- Tagi -->
+                    <TextBlock Text="Tagi:" Grid.Row="4" Grid.Column="0" FontWeight="Bold"/>
+                    <TextBlock Text="{Binding TagsText}" Grid.Row="4" Grid.Column="1"/>
+                </Grid>
+
+                
             </StackPanel>
-        </StackPanel>
+
+            <wv2:WebView2 Name="ModelViewerWeb" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        </Grid>
 
     </Grid>
 </Window>

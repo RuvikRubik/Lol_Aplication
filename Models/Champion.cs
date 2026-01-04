@@ -15,6 +15,11 @@ namespace Lol_Aplication.Models
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
+        public string ModelId { get; set; }
+
+        [JsonPropertyName("skins")]
+        public List<Skin> Skins { get; set; }
+
         [JsonPropertyName("tags")]
         public List<string> Tags { get; set; }
 
@@ -25,4 +30,6 @@ namespace Lol_Aplication.Models
 
         public string ImageUrl { get; set; }
     }
+
+
 }

@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using Lol_Aplication.Models;
+using System.Net;
+using System.Security.Policy;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -13,13 +15,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using Lol_Aplication.Models;
-
 namespace Lol_Aplication
 {
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    public class TempChampionJson
+    {
+        [JsonPropertyName("data")]
+        public Dictionary<string, ChampionData> Data { get; set; }
+    }
+
+    public class ChampionData
+    {
+        [JsonPropertyName("skins")]
+        public List<Skin> Skins { get; set; }
+    }
     public partial class MainWindow : Window
     {
         string ChampionsJSON;
@@ -39,14 +52,28 @@ namespace Lol_Aplication
         {
             WebClient webClient = new WebClient();
             selectedVersion = VersionsComboBox.SelectedItem.ToString();
-            ChampionsJSON = webClient.DownloadString($"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/data/en_US/champion.json");
+            ChampionsJSON = webClient.DownloadString(
+                $"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/data/en_US/champion.json");
+
             var root = JsonSerializer.Deserialize<Json>(ChampionsJSON);
 
-            ChampionsList.ItemsSource = root.champions.Values;
+            // najpierw ustawiamy ImageUrl dla każdego championa
             foreach (var champ in root.champions.Values)
             {
+                // podstawowy obrazek championa
                 champ.ImageUrl = $"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/img/champion/{champ.ID}.png";
+
+                // pobieramy JSON konkretnego championa
+                string champJsonStr = webClient.DownloadString(
+                    $"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/data/en_US/champion/{champ.ID}.json");
+
+                var temp = JsonSerializer.Deserialize<TempChampionJson>(champJsonStr);
+                champ.ModelId = temp.Data[champ.ID].Skins[0].Id;
+
             }
+
+            // dopiero teraz ustawiamy ItemsSource
+            ChampionsList.ItemsSource = root.champions.Values;
         }
 
         // Pobranie wersji gry League of Legends
@@ -91,6 +118,34 @@ namespace Lol_Aplication
         {
             SetTextMode();
             VersionsComboBox.SelectedIndex = 0;
+        }
+
+        private async void ChampionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ChampionsList.SelectedItem is Champion selected)
+            {
+                string url = $"https://modelviewer.lol/model-viewer?id={selected.ModelId}";
+                await ModelViewerWeb.EnsureCoreWebView2Async();
+                ModelViewerWeb.Source = new Uri(url);
+
+                // Poczekaj chwilę na załadowanie strony, potem fullscreen
+                await Task.Delay(500);
+                GoFullScreen();
+            }
+        }
+
+        private async void GoFullScreen()
+        {
+            await Task.Delay(300);
+
+            // Szukamy przycisku Full Screen i wywołujemy jego kliknięcie
+            string script = @"
+    let btn = Array.from(document.querySelectorAll('button'))
+                   .find(b => b.innerText.includes('Full Screen'));
+    if (btn) btn.click();
+";
+
+            await ModelViewerWeb.ExecuteScriptAsync(script);
         }
     }
 }
