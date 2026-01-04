@@ -46,6 +46,7 @@ namespace Lol_Aplication
             foreach (var champ in root.champions.Values)
             {
                 champ.ImageUrl = $"https://ddragon.leagueoflegends.com/cdn/{selectedVersion}/img/champion/{champ.ID}.png";
+
             }
         }
 

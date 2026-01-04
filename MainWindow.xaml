@@ -26,9 +26,9 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
 
+        
         <StackPanel Name="StackPanel1" Grid.Column="0">
             <ComboBox Name="VersionsComboBox" SelectionChanged="GenerateChapions" />
-
             <StackPanel Orientation="Horizontal" Margin="0,5,0,5">
                 <Button Content="Text" Click="TextButton_Click" Margin="0,0,5,0"/>
                 <Button Content="Image" Click="ImageButton_Click"/>
@@ -37,17 +37,64 @@
             <ListBox Name="ChampionsList" Height="400"/>
         </StackPanel>
 
-        <StackPanel Grid.Column="1">
+        <StackPanel Grid.Column="1"  DataContext="{Binding SelectedItem, ElementName=ChampionsList}">
             <TextBlock Text="Champion Details" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" TextAlignment="Center"/>
+            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center"/>
+            <Image Source="{Binding ImageUrl}" Width="100" Height="100" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <StackPanel DataContext="{Binding SelectedItem, ElementName=ChampionsList}">
-                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14"/>
-                <Image Source="{Binding ImageUrl}" Width="100" Height="100" />
-                <TextBlock Text="{Binding Stats.Hp, StringFormat=HP: {0}}" />
-                <TextBlock Text="{Binding Stats.AttackDamage, StringFormat=ATK: {0}}" />
-                <TextBlock Text="{Binding Stats.MoveSpeed, StringFormat=Move Speed: {0}}" />
-                <TextBlock Text="{Binding TagsText, StringFormat=Tags: {0}}" />
-            </StackPanel>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/hp.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.Hp}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/mp.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.Mp}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+  
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/ad.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.AttackDamage}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/ap.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.SpellDamage}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/armor.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.Armor}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+                                <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/magic_resist.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.SpellBlock}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/ms.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.MoveSpeed}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" Margin="5">
+                    <Image Source="/Images/attack_range.png" Width="48" Height="48"/>
+                    <TextBlock Text="{Binding Stats.AttackRange}" Margin="5,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+
+    
         </StackPanel>
 
     </Grid>
