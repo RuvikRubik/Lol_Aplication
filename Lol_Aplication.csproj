@@ -25,7 +25,6 @@
     <Resource Include="Images\ap.png" />
     <Resource Include="Images\armor.png" />
     <Resource Include="Images\attack_range.png" />
-    <Resource Include="Images\Fulgora.png" />
     <Resource Include="Images\hp.png" />
     <Resource Include="Images\magic_resist.png" />
     <Resource Include="Images\mp.png" />

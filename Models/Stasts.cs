@@ -69,6 +69,6 @@ namespace Lol_Aplication.Models
         [JsonPropertyName("attackspeedperlevel")]
         public float AttackSpeedPerLevel { get; set; }
 
-        public float SpellDamage { get; set; }
+        public float SpellDamage { get; set; }  
     }
 }
